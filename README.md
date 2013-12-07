@@ -34,10 +34,10 @@ Params can be set like so, `:id` and can be found from `e.params` object
 
 ```javascript
 $(document).hashroute('/page1/:item', function(e) {
-	// Page 1, item `e.params.item` route activated
+	// Page 1, item e.params.item route activated
 });
 $(document).hashroute('/:page/:item', function(e) {
-	// Page `e.params.page`, item `e.params.item` route activated
+	// Page e.params.page, item e.params.item route activated
 });
 ```
 
