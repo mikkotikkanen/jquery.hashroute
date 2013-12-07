@@ -19,12 +19,12 @@ These routes can be activated with simply setting hashurl to a link
 <a href="#/page1">Page 1</a>
 ```
 
-Also: When links are encased within `nav` element or `nav` -class, they also get `active`-class on route change.
+Also: When links are encased within `nav` element or `nav` -class, the corresponding elements also automatically get `active`-class on route change for styling needs.
 
 ```html
 <nav>
     <a href="#/">Go home</a>
-    <a href="#/page1">Page 1</a>
+    <a href="#/page1" class="active">Page 1</a>
 </nav>
 ```
 
@@ -57,10 +57,12 @@ $(document).hashroute('/', function(e) {
 });
 ```
 
-Note: Middleware stack doesn't advance until `this.next()` is called.
+__Note__: Middleware stack doesn't advance until `this.next()` is called.
 
 
 ## Options
+
+* __verbose__: (default: false) Show debug logs in console
 
 Options can be set either by constructor or calling the `set` method.
 
@@ -71,5 +73,3 @@ $.hashroute({
 // OR
 $.hashroute('set', 'verbose', true);
 ```
-
-Currently, `verbose` is the only option available
