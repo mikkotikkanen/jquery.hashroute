@@ -53,7 +53,7 @@ $.hashroute('middleware', function(e) {
 	this.next(); // Advance in the middleware stack
 });
 $(document).hashroute('/', function(e) {
-	// `e.first` equals to true
+	// e.first equals to true
 });
 ```
 
