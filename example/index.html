@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>jQuery.hashroute example</title>
+	<style>
+		html {
+			color: rgba(0, 0, 0, 0.4);
+			font-size: 20px;
+		}
+		
+		header {
+			margin-top: 30px;
+			font-size: 150%;
+		}
+		header h1 { font-weight: normal; }
+		header span {
+			font-weight: bold;
+			color: rgba(0, 0, 0, 0.7);
+		}
+		
+		nav {
+			margin: 50px 0 20px 0;
+			
+			font-size: 20px;
+			text-align: center;
+		}
+		nav a {
+			margin: 0 10px;
+			color: rgba(0, 0, 0, 0.7);
+		}
+		nav a.active {
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1><span>jQuery.hashroute</span> example</h1>
+		
+		<nav>
+			<a href="#/">Home</a>
+			<a href="#/view1">View 1</a>
+			<a href="#/view1/1234">View 1 with ID</a>
+			<a href="#/view2">View 2 (No route)</a>
+		</nav>
+	</header>
+	
+	<p>Open console (F12) to see 'em working.</p>
+	
+	
+	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
+	
+	<script src="../jquery.hashroute.js"></script>
+	<script>
+		
+		$.hashroute({
+			verbose: true
+		});
+		
+		/*
+		 * Set example middlewares (always run before routes are handled)
+		 */
+		$.hashroute('middleware', function(e) {
+			console.log('First middleware - Setting e.params.first');
+			e.first = true;
+			this.next(); // Advance in the middleware stack
+		});
+		$.hashroute('middleware', function(e) {
+			console.log('Second middleware - Setting e.params.second');
+			e.second = true;
+			this.next(); // Advance in the middleware stack
+		});
+		
+		
+		/*
+		 * Set routes
+		 */
+		$(document).hashroute('/', function(e) {
+			console.log('--> HOME!', e);
+		});
+		$(document).hashroute('/view1', function(e) {
+			console.log('--> VIEW1!', e);
+		});
+		$(document).hashroute('/view1/:id/', function(e) {
+			console.log('--> VIEW1 with param!', e.params, e);
+		});
+		$(document).hashroute('/view1/:id1/:id2', function(e) {
+			console.log('--> VIEW1 with MOAR params!', e.params, e);
+		});
+		
+	</script>
+
+</body>
+</html>
