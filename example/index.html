@@ -23,9 +23,11 @@
 		
 		nav {
 			margin: 50px 0 20px 0;
+			padding: 2em;
 			
 			font-size: 20px;
 			text-align: center;
+			background: rgba(0, 0, 0, 0.1);
 		}
 		nav a {
 			margin: 0 10px;
@@ -33,6 +35,14 @@
 		}
 		nav a.active {
 			font-weight: bold;
+		}
+		
+		#container > * {
+			display: none;
+		}
+		
+		footer {
+			margin-top: 3em;
 		}
 	</style>
 </head>
@@ -42,13 +52,25 @@
 		
 		<nav>
 			<a href="#/">Home</a>
-			<a href="#/view1">View 1</a>
-			<a href="#/view1/1234">View 1 with ID</a>
-			<a href="#/view2">View 2 (No route)</a>
+			<a href="#/page1">Page 1</a>
+			<a href="#/page1/1234">Page 1 with ID</a>
+			<a href="#/page2">Page 2 (No route)</a>
 		</nav>
 	</header>
+		
+	<div id="container">
+		<div id="home" class="page">
+			<h2>Home view</h2>
+		</div>
+		<div id="page1" class="page">
+			<h2>Page 1</h2>
+			<div class="id">ID: <span></span></div>
+		</div>
+	</div>
 	
-	<p>Open console (F12) to see 'em working.</p>
+	<footer>
+		<p>Open console (F12) to see 'em working in detail.</p>
+	</footer>
 	
 	
 	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
@@ -58,6 +80,7 @@
 	<script src="../jquery.hashroute.js"></script>
 	<script>
 		
+		// Set verbose flag
 		$.hashroute({
 			verbose: true
 		});
@@ -69,10 +92,11 @@
 			console.log('First middleware - Setting e.params.first');
 			e.first = true;
 			this.next(); // Advance in the middleware stack
+			$()
 		});
 		$.hashroute('middleware', function(e) {
-			console.log('Second middleware - Setting e.params.second');
-			e.second = true;
+			console.log('Middleware - Setting pages to display: none');
+			$('.page').hide();
 			this.next(); // Advance in the middleware stack
 		});
 		
@@ -82,15 +106,18 @@
 		 */
 		$(document).hashroute('/', function(e) {
 			console.log('--> HOME!', e);
+			$('#home').show();
 		});
-		$(document).hashroute('/view1', function(e) {
-			console.log('--> VIEW1!', e);
+		$(document).hashroute('/page1', function(e) {
+			console.log('--> PAGE1!', e);
+			$('#page1').show().find('.id').hide();
 		});
-		$(document).hashroute('/view1/:id/', function(e) {
-			console.log('--> VIEW1 with param!', e.params, e);
+		$(document).hashroute('/page1/:id/', function(e) {
+			console.log('--> PAGE1 with param!', e.params, e);
+			$('#page1').show().find('.id').show().find('span').html(e.params.id);
 		});
-		$(document).hashroute('/view1/:id1/:id2', function(e) {
-			console.log('--> VIEW1 with MOAR params!', e.params, e);
+		$(document).hashroute('/page1/:id1/:id2', function(e) {
+			console.log('--> PAGE1 with MOAR params!', e.params, e);
 		});
 		
 	</script>
