@@ -6,6 +6,8 @@
  * @version 1.0
  * @author Mikko Tikkanen <mikko.tikkanen@gmail.com>
  */
+/* jshint browser: true, devel: true */
+/* global jQuery */
 ;(function(window, document, $, undefined) {
 	var methods = {},			// Methods namespace
 		O = {					// Options
@@ -39,7 +41,7 @@
 			test: route,			// Test regexp
 			paramsNameList: [],		// Param name list
 			callback: callback		// Route callback function
-		}
+		};
 		
 		// Collect param names & convert test to more regexp like structure
 		if(route.indexOf(':') != -1) {
@@ -53,7 +55,7 @@
 		obj.test = new RegExp('^\/?'+obj.test.replace(/^[\/]*|[\/]*$/g, '')+'\/?$', "i");
 		
 		routes.push(obj);
-	}
+	};
 
 	
 	/* Add middleware
@@ -61,7 +63,7 @@
 	methods.middleware = function(fnc) {
 		O.middleware.push(fnc);
 		_log('Middleware added. '+fnc.toString().substring(0, 100).replace(/[\W]*$/g, '')+'...');
-	}
+	};
 
 
 	/* Set option method
@@ -69,7 +71,7 @@
 	methods.set = function(key, value) {
 		O[key] = value;
 		if(typeof O.middleware == 'function') { O.middleware = [O.middleware]; }
-	}
+	};
 	
 	
 	
@@ -116,15 +118,15 @@
 		var next = function() {
 			i++;
 			if(i >= O.middleware.length) {
-				_runRoutes(e)
+				_runRoutes(e);
 				return;
 			}
 			O.middleware[i].next = next;
 			O.middleware[i].call(O.middleware[i], e);
-		}
+		};
 		
 		next();
-	};
+	}
 	
 	
 	/* Run routes
@@ -153,13 +155,13 @@
 				
 		// If there's active no route, create one with test regexp for current hash
 		if(!route) { _log('Route not found.'); }
-		route = route || { test: new RegExp('^\/?'+window.location.hash.substring(1).replace(/^[\/]*|[\/]*$/g, '')+'\/?$', "i") }
+		route = route || { test: new RegExp('^\/?'+window.location.hash.substring(1).replace(/^[\/]*|[\/]*$/g, '')+'\/?$', "i") };
 		
 		// Activate nav links
 		_log('Activating nav links.');
 		$('a[href^=#].active').removeClass('active');
 		$('nav, .nav').find('a[href^=#]').each(function(i, el) {
-			var el = $(el);
+			el = $(el);
 			var href = el.attr('href').substring(1);
 			//if(href) { el.removeClass('active'); }
 			if(route.test.test(href)) {
@@ -181,7 +183,7 @@
 	// When everything's ready, fire hashchange
 	$(document).ready(function() {
 		$(window).trigger('hashchange');
-	})
+	});
 	
 	
 })(window, document, jQuery);
