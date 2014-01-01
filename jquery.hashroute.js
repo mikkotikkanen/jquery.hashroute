@@ -159,11 +159,10 @@
 		
 		// Activate nav links
 		_log('Activating nav links.');
-		$('a[href^=#].active').removeClass('active');
 		$('nav, .nav').find('a[href^=#]').each(function(i, el) {
 			el = $(el);
+			el.removeClass('active');
 			var href = el.attr('href').substring(1);
-			//if(href) { el.removeClass('active'); }
 			if(route.test.test(href)) {
 				el.addClass('active');
 			}
