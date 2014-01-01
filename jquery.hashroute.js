@@ -175,7 +175,7 @@
 	 * ------------------------------------------------------------------------------------------ */
 	function _log(msg) {
 		if(!O.verbose) { return; }
-		console.log('jQuery.hashroute::'+msg);
+		console.log('jQuery.hashroute::'+msg, Array.prototype.slice.call(arguments, 1));
 	}
 	
 	
