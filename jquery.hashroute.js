@@ -64,6 +64,13 @@
 		O.middleware.push(fnc);
 		_log('Middleware added. '+fnc.toString().substring(0, 100).replace(/[\W]*$/g, '')+'...');
 	};
+	
+	
+	/* Add 404 route
+	 * ------------------------------------------------------------------------------------------ */
+	methods[404] = function(fnc) {
+		methods.route('(.*)', fnc);
+	};
 
 
 	/* Set option method

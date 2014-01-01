@@ -1,8 +1,8 @@
-jQuery plugin for hash routing
-========
+jQuery plugin for hash simple routing
+===================================
 
-
-## Routing
+Routing
+---------------------------
 ```javascript
 $(document).hashroute('/', function(e) {
 	// Home route activated
@@ -41,7 +41,18 @@ $(document).hashroute('/:page/:item', function(e) {
 });
 ```
 
-## Middleware
+### Special routes
+
+__404 - Route/Page not found__
+
+```javascript
+$.hashroute('404', function(e) {
+	// Error 404 activated
+});
+```
+
+Middleware
+-----------------
 
 jquery.hashroute also supports middleware. In short, middleware is a function that is executed before
 any routing happens. This can be used for example checking authentication before loading the page.
@@ -60,7 +71,8 @@ $(document).hashroute('/', function(e) {
 __Note__: Middleware stack doesn't advance until `this.next()` is called.
 
 
-## Options
+Options
+--------------------
 
 * __verbose__: (default: false) Show debug logs in console
 
