@@ -173,9 +173,11 @@
 	
 	/* Log helper
 	 * ------------------------------------------------------------------------------------------ */
-	function _log(msg) {
+	function _log() {
 		if(!O.verbose) { return; }
-		console.log('jQuery.hashroute::'+msg, Array.prototype.slice.call(arguments, 1));
+		var args = [].slice.call(arguments, 0);
+		args[0] = 'jQuery.hashroute - '+args[0];
+		console.log.apply(window.console, args);
 	}
 	
 	
