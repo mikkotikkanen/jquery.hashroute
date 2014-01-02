@@ -11,9 +11,9 @@
 ;(function(window, document, $, undefined) {
 	var methods = {},			// Methods namespace
 		O = {					// Options
-			middleware: [],		//   Middleware stack
 			verbose: false		//   Display logs
 		},				
+		middleware = [],		// Middleware stack
 		routes = [];			// Routes
 	
 	
@@ -23,15 +23,8 @@
 	methods.route = function(route, callback) {
 		if(route === null || route === undefined) { return; }
 		
-		// Constructor - Set options
-		if(typeof route == 'object') {
-			O = route;
-			
-			// Make sure things are as they should
-			O.middleware = O.middleware || [];
-			if(typeof O.middleware == 'function') { O.middleware = [O.middleware]; }
-			return;
-		}
+		// Constructor - Set options. Also, callback needs to be set.
+		if(typeof route == 'object') { O = route; return; }
 		if(!callback) { return; }
 		
 		// Create route object
@@ -61,7 +54,7 @@
 	/* Add middleware
 	 * ------------------------------------------------------------------------------------------ */
 	methods.middleware = function(fnc) {
-		O.middleware.push(fnc);
+		middleware.push(fnc);
 		_log('Middleware added. '+fnc.toString().substring(0, 100).replace(/[\W]*$/g, '')+'...');
 	};
 	
@@ -77,13 +70,12 @@
 	 * ------------------------------------------------------------------------------------------ */
 	methods.set = function(key, value) {
 		O[key] = value;
-		if(typeof O.middleware == 'function') { O.middleware = [O.middleware]; }
 	};
 	
 	
 	
 	/* Plugin base logic
-	 * ------------------------------------------------------------------------------------------ */
+	 * ========================================================================================== */
 	$.hashroute = $.fn.hashroute = function(method) {
 		if(methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -96,13 +88,13 @@
 	
 	
 	
-	/* Hashchange, run middleware which in turn runs routes
+	
+	
+	/* Hashchange, setup event and run middleware which in turn runs routes
 	 * ------------------------------------------------------------------------------------------ */
 	function _hashchange(e) {
-		var hash = location.hash.substring(1);
-		
-		// Setup
-		e.hash = hash;
+		e = e || jQuery.Event('hashchange');
+		e.hash = location.hash.substring(1);
 		e.params = {};
 		
 		_runMiddleware(e);
@@ -115,7 +107,7 @@
 	function _runMiddleware(e) {
 		
 		// If no middleware is defined, run routes
-		if(!O.middleware.length) {
+		if(!middleware.length) {
 			_runRoutes(e);
 			return;
 		}
@@ -125,12 +117,12 @@
 		var i = -1;
 		var next = function() {
 			i++;
-			if(i >= O.middleware.length) {
+			if(i >= middleware.length) {
 				_runRoutes(e);
 				return;
 			}
-			O.middleware[i].next = next;
-			O.middleware[i].call(O.middleware[i], e);
+			middleware[i].next = next;
+			middleware[i].call(middleware[i], e);
 		};
 		
 		next();
