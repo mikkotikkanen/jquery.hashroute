@@ -1,4 +1,4 @@
-jQuery plugin for hash simple routing
+jQuery plugin for simple hashrouting
 ===================================
 
 Routing
