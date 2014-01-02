@@ -75,8 +75,6 @@
 	
 	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')</script>
-	
 	<script src="../jquery.hashroute.js"></script>
 	<script>
 		
@@ -92,7 +90,6 @@
 			console.log('First middleware - Setting e.params.first');
 			e.first = true;
 			this.next(); // Advance in the middleware stack
-			$()
 		});
 		$.hashroute('middleware', function(e) {
 			console.log('Middleware - Setting pages to display: none');
