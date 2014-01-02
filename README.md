@@ -28,6 +28,16 @@ Also: When links are encased within `nav` element or `nav` -class, the correspon
 </nav>
 ```
 
+#### Binding to elements
+
+You can also bind routes directly to elements
+
+```javascript
+$('header').hashroute('/login', function(e) {
+	this.html('Login Page')
+});
+```
+
 ### Route parameters
 
 Params can be set like so, `:id` and can be found from `e.params` object
