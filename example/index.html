@@ -87,7 +87,7 @@
 		 * Set example middlewares (always run before routes are handled)
 		 */
 		$.hashroute('middleware', function(e) {
-			console.log('First middleware - Setting e.params.first');
+			console.log('First middleware - Setting e.first'); // Just for giggles
 			e.first = true;
 			this.next(); // Advance in the middleware stack
 		});
