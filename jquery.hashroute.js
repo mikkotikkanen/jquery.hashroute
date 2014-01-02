@@ -3,7 +3,7 @@
  *
  * Enables simple hash routing in your web app.
  *
- * @version 1.0
+ * @version 1.1
  * @author Mikko Tikkanen <mikko.tikkanen@gmail.com>
  */
 /* jshint browser: true, devel: true */
@@ -98,7 +98,7 @@
 	
 	/* Hashchange, run middleware which in turn runs routes
 	 * ------------------------------------------------------------------------------------------ */
-	$(window).on('hashchange', function(e) {
+	function _hashchange(e) {
 		var hash = location.hash.substring(1);
 		
 		// Setup
@@ -106,7 +106,8 @@
 		e.params = {};
 		
 		_runMiddleware(e);
-	});
+	}
+	$(window).on('hashchange.hashroute', _hashchange);
 	
 	
 	/* Run middleware
@@ -190,7 +191,7 @@
 	
 	// When everything's ready, fire hashchange
 	$(document).ready(function() {
-		$(window).trigger('hashchange');
+		_hashchange();
 	});
 	
 	
