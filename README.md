@@ -69,7 +69,7 @@ any routing happens. This can be used for example checking authentication before
 
 ```javascript
 $.hashroute('middleware', function(e) {
-	console.log('First middleware - Setting e.params.first');
+	console.log('First middleware - Setting e.first');
 	e.first = true;
 	this.next(); // Advance in the middleware stack
 });
