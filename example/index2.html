@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>jQuery.route example</title>
+	<style>
+		html {
+			color: rgba(0, 0, 0, 0.4);
+			font-size: 20px;
+		}
+		
+		header {
+			margin-top: 30px;
+			font-size: 150%;
+		}
+		header h1 { font-weight: normal; }
+		header span {
+			font-weight: bold;
+			color: rgba(0, 0, 0, 0.7);
+		}
+		
+		nav {
+			margin: 50px 0 20px 0;
+			padding: 2em;
+			
+			font-size: 20px;
+			text-align: center;
+			background: rgba(0, 0, 0, 0.1);
+		}
+		nav a {
+			margin: 0 10px;
+			color: rgba(0, 0, 0, 0.7);
+		}
+		nav a.active {
+			font-weight: bold;
+		}
+		
+		#container > * {
+			display: none;
+		}
+		
+		footer {
+			margin-top: 3em;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1><span>jQuery.route</span> example</h1>
+		
+		<nav>
+			<a href="#/">Home</a>
+			<a href="#/page1">Page 1</a>
+			<a href="#/page1/1234">Page 1 with ID</a>
+			<a href="#/page2">Page 2 (No route)</a>
+		</nav>
+	</header>
+		
+	<div id="container">
+		<div id="home" class="page">
+			<h2>Home view</h2>
+		</div>
+		<div id="page1" class="page">
+			<h2>Page 1</h2>
+			<div class="id">ID: <span></span></div>
+		</div>
+	</div>
+	
+	<footer>
+		<p>Open console (F12) to see 'em working in detail.</p>
+	</footer>
+	
+	
+	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="../jquery.route.js"></script>
+	<script>
+		
+		// Set verbose flag
+		$.route({
+			verbose: true
+		});
+		
+		/*
+		 * Set example middlewares (always run before routes are handled)
+		 */
+		$.route('middleware', function(e) {
+			console.log('    Middleware - Setting e.first'); // Just for giggles
+			e.first = true;
+			this.next(); // Advance in the middleware stack
+		});
+		$.route('middleware', function(e) {
+			console.log('    Middleware - Setting all pages to display: none');
+			$('.page').hide();
+			this.next(); // Advance in the middleware stack
+		});
+		
+		
+		/*
+		 * Set hashroutes
+		 */
+		$(document).route('#/', function(e) {
+			console.log('--> HOME!', e);
+			$('#home').show();
+		});
+		$(document).route('#/page1', function(e) {
+			console.log('--> PAGE1!', e);
+			$('#page1').show().find('.id').hide();
+		});
+		$(document).route('#/page1/:id/', function(e) {
+			console.log('--> PAGE1 with param!', e.params, e);
+			$('#page1').show().find('.id').show().find('span').html(e.params.id);
+		});
+		$(document).route('#/page1/:id1/:id2', function(e) {
+			console.log('--> PAGE1 with MOAR params!', e.params, e);
+		});
+		
+		/*
+		 * Set url route
+		 */
+		$(document).route('*/example', function() {
+			console.log('--> Example url route fired.');
+		})
+		
+	</script>
+
+</body>
+</html>
